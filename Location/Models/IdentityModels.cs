@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace Location.Models
 {
@@ -15,6 +16,12 @@ namespace Location.Models
             // Ajouter les revendications personnalisées de l’utilisateur ici
             return userIdentity;
         }
+        
+        [Display(Name = "Prénom")]
+        public string prenom { get; set; }
+
+        [Display(Name = "Nom")]
+        public string nom { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

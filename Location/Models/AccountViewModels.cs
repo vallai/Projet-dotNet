@@ -54,6 +54,14 @@ namespace Location.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Prénom")]
+        public string prenom { get; set; }
+
+        [Required]
+        [Display(Name = "Nom")]
+        public string nom { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Courrier électronique")]
         public string Email { get; set; }
