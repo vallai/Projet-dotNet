@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace Location.Models
 {
@@ -35,5 +36,7 @@ namespace Location.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Objet> Objets { get; set; }
     }
 }

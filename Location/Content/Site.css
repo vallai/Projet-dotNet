@@ -1,7 +1,8 @@
 ﻿body {
-    padding-top: 10px;
+    padding-top: 0px;
     /*padding-bottom: 20px;*/
     font-weight: 400;
+    background-color : #f5f5f5;
 }
 
 
@@ -18,7 +19,20 @@ textarea {
     max-width: 280px;
 }
 
+.jumbotron {
+    margin-top : 20px;
+    background-color : #ddd;
+}
+
 
 .navbar-brand {
 font-weight: 600;
+ font-family: 'Corben', cursive;
+}
+
+.navbar {
+    background-color : #ffffff; 
+    margin : 0;
+    padding : 10px 0;
+    border-bottom : 3px solid #333333;
 }
