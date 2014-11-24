@@ -90,11 +90,11 @@ namespace Location.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.prenom, Email = model.Email, prenom = model.prenom, nom = model.nom };
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, prenom = model.prenom, nom = model.nom };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
+                    //await SignInAsync(user, isPersistent: false);
 
                     // Pour plus d'informations sur l'activation de la confirmation du compte et la réinitialisation du mot de passe, consultez http://go.microsoft.com/fwlink/?LinkID=320771
                     // Envoyer un message électronique avec ce lien
