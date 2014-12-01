@@ -2,20 +2,6 @@
 
 namespace Location.Models
 {
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Courrier électronique")]
-        public string Email { get; set; }
-    }
-
-    public class ExternalLoginListViewModel
-    {
-        public string Action { get; set; }
-        public string ReturnUrl { get; set; }
-    }
-
     public class ManageUserViewModel
     {
         [Required]
