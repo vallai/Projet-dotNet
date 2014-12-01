@@ -58,8 +58,6 @@ namespace Location.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution")] Objet objet)
         {
-           
-
             if (ModelState.IsValid)
             {
                 var currentUser = manager.FindById(User.Identity.GetUserId());
@@ -68,7 +66,6 @@ namespace Location.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(objet);
         }
 
