@@ -15,10 +15,13 @@ namespace Location.Models
         public string Titre { get; set; }
         public string Description { get; set; }
         [Required]
+        [Display(Name = "Catégorie")]
+        public virtual Categorie Categorie { get; set; }
+        [Required]
         public float Tarif { get; set; }
         [Required]
         public float Caution { get; set; }
         [ScaffoldColumn(false)]
-        public ApplicationUser proprietaire { get; set; }
+        public virtual ApplicationUser proprietaire { get; set; }
     }
 }

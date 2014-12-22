@@ -20,13 +20,12 @@ namespace Location.Controllers
         public ObjetController()
         {
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-
         }
 
         // GET: Objet
         public ActionResult Index()
         {
-            return View(db.Objets.ToList());
+            return View(db.Objets.Include(o => o.Categorie).ToList());
         }
 
         // GET: Objet/Details/5
@@ -41,12 +40,14 @@ namespace Location.Controllers
             {
                 return HttpNotFound();
             }
+            //ViewBag.cat = objet.Categorie;
             return View(objet);
         }
 
         // GET: Objet/Create
         public ActionResult Create()
         {
+            ViewBag.ListeDesCategories = new SelectList(db.Categories, "Id", "Nom");
             return View();
         }
 
@@ -81,6 +82,7 @@ namespace Location.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ListeDesCategories = new SelectList(db.Categories, "Id", "Nom", objet.Categorie.Id );
             return View(objet);
         }
 

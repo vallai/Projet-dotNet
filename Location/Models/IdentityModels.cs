@@ -38,5 +38,6 @@ namespace Location.Models
         }
 
         public DbSet<Objet> Objets { get; set; }
+        public DbSet<Categorie> Categories { get; set; }
     }
 }
