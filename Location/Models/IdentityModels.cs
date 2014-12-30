@@ -23,6 +23,9 @@ namespace Location.Models
 
         [Display(Name = "Nom")]
         public string nom { get; set; }
+
+        [Required]
+        public virtual Ville Ville { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -39,5 +42,8 @@ namespace Location.Models
 
         public DbSet<Objet> Objets { get; set; }
         public DbSet<Categorie> Categories { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Departement> Departements { get; set; }
+        public DbSet<Ville> Villes { get; set; }
     }
 }

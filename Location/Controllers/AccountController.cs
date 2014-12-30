@@ -90,7 +90,10 @@ namespace Location.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, prenom = model.prenom, nom = model.nom };
+                //var ville = 
+                var context = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                Ville villeUser = context.Villes.SingleOrDefault(ville => ville.Nom == model.ville);
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, prenom = model.prenom, nom = model.nom, Ville = villeUser };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

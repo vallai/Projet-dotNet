@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Location.Models
 {
-    //public class MagasinInitializer : DropCreateDatabaseIfModelChanges<MagasinContext>
+    //public class MInitializer : DropCreateDatabaseIfModelChanges<MagasinContext>
     // CreateDatabaseIfNotExists
     // DropCreateDatabaseAlways
     public class Initializer : DropCreateDatabaseAlways<ApplicationDbContext>
@@ -17,18 +17,7 @@ namespace Location.Models
 
         protected override void Seed(ApplicationDbContext context)
         {
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context)); 
-
-            var userChristian = new ApplicationUser();
-            userChristian.UserName = "a@a.fr";
-            userChristian.Email = "a@a.fr";
-            userChristian.prenom = "Christian";
-            userChristian.nom = "SCHMIDT";
-            var utilisateur = UserManager.Create(userChristian, "azerty");
-            base.Seed(context);
-
-
-            // Categories
+            // CATEGORIES
 
             var categorieBricolage = new Categorie { Nom = "Bricolage" };
             var categorieLoisirs = new Categorie { Nom = "Loisirs" };
@@ -57,8 +46,71 @@ namespace Location.Models
             }
             context.Categories.Add(categorieBricolage);
             context.Categories.Add(categorieLoisirs);
+           
+            // REGIONS
 
-            // Objets
+            var rhoneAlpes = new Region { Nom = "Rhone-Alpes" };
+            context.Regions.Add(rhoneAlpes);
+
+            // DEPARTEMENTS
+
+            var ain = new Departement
+            {
+                Nom = "Ain",
+                Numero = 1,
+                Region = rhoneAlpes
+            };
+
+            var rhone = new Departement
+            {
+                Nom = "Rhone",
+                Numero = 69,
+                Region = rhoneAlpes
+            };
+
+            var isere = new Departement
+            {
+                Nom = "Isère",
+                Numero = 38,
+                Region = rhoneAlpes
+            };
+
+            context.Departements.Add(ain);
+            context.Departements.Add(rhone);
+            context.Departements.Add(isere);
+
+            // VILLES
+
+            var grenoble = new Ville
+            {
+                Nom = "Grenoble",
+                Code_postal = 38000,
+                Departement = isere
+            };
+
+            var lyon = new Ville
+            {
+                Nom = "Lyon",
+                Code_postal = 69000,
+                Departement = rhone
+            };
+
+            context.Villes.Add(grenoble);
+            context.Villes.Add(lyon);
+
+            // UTILISATEUR
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            var userChristian = new ApplicationUser();
+            userChristian.UserName = "a@a.fr";
+            userChristian.Email = "a@a.fr";
+            userChristian.prenom = "Christian";
+            userChristian.nom = "SCHMIDT";
+            userChristian.Ville = grenoble;
+            var utilisateur = UserManager.Create(userChristian, "azerty");
+            base.Seed(context);
+
+            // OBJETS
 
             var objets = new List<Objet>
             {
@@ -85,24 +137,7 @@ namespace Location.Models
                 context.Objets.Add(objet);
             }
 
-  
-            string toto = "";
-try{
             context.SaveChanges();
-}
-catch (DbEntityValidationException e)
-{
-    foreach (var eve in e.EntityValidationErrors)
-    {
-        toto += "Entity of type \"" + eve.Entry.Entity.GetType().Name + "\" in state \"" + eve.Entry.State + "\" has the following validation errors:";
-        foreach (var ve in eve.ValidationErrors)
-        {
-            toto += "- Property: \"" + ve.PropertyName + "\", Error: \"" + ve.ErrorMessage + "\"";
-        }
-    }
-}
-
-
         }
     }
 }

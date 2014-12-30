@@ -42,12 +42,47 @@
         </div>
     </div>
     <div class="form-group">
+        @Html.LabelFor(m => m.ville, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ville, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Inscription" />
         </div>
     </div>
 }
 
+@Scripts.Render("~/bundles/autocomplete")
+<script>
+    var villes = new Bloodhound({
+        datumTokenizer: function (datum) {
+            return Bloodhound.tokenizers.whitespace(datum.value);
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '@Url.Action("Index", "Ville")?recherche=%QUERY',
+            filter: function (villes) {
+                return $.map(villes, function (ville) {
+                    return {
+                        value: ville.Nom
+                    };
+                });
+            }
+        }
+    });
+
+    villes.initialize();
+
+    $('#ville').typeahead(null, {
+        hint: true,
+        highlight: true,
+        minLength: 1,
+        displayKey: 'value',
+        source: villes.ttAdapter()
+    });
+</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
