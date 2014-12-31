@@ -3,29 +3,68 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Rechercher un objet en location</h1>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+                    <input id="quoi" type="text" class="form-control" id="quoi" placeholder="Quoi ? Exemple : Perceuse, Poussette, Camping-car ...">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></div>
+                    <input id="ou" type="text" class="form-control" id="quoi" placeholder="Où ? Exemple : Grenoble, Isère, Rhones-Alpes ...">
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="rechercher" type="submit" value="Rechercher" class="btn btn-default pull-right" />
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h3><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>Louer près de chez vous</h3>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Retrouvez près de chez vous, ou sur le lieu de votre choix, tout type de matériel à louer. Quel que soit votre besoin, du plus basique au plus technique, inutile d’acheter : optez pour la location entre particulier, à proximité. Une simple recherche vous permettra de trouver le bon objet.
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h3><span class="glyphicon glyphicon-euro" aria-hidden="true"></span>  Louer au meilleur prix</h3>
+        <p>
+            Propriétaire : gagnez de l’argent grâce à la location d'objets que vous avez chez vous, mais que vous n’utilisez que très peu.
+            Locataire : retrouvez les meilleures offres de location de matériel selon vos besoins et votre budget. Comparez et choisissez l’objet le plus adapté.
+        </p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h3><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>  Louer tout type de matériel</h3>
+        <p>Pour un besoin ponctuel, pour l’organisation d’un événement d’ampleur ou pour préparer de gros travaux, Zilok rassemble toutes les offres de location entre particuliers, mais aussi de nos partenaires professionnels de la location, à votre disposition pour la réalisation de votre projet.</p>
     </div>
 </div>
+
+<script>
+    $("#rechercher").on('click', function () {
+        var chemin = "@Url.Action("Index","Recherche")";
+        var quoi = $("#quoi").val();
+        var ou = $("#ou").val();
+        if (quoi.trim() && ou.trim()) {
+            document.location.href = chemin + "?keyword=" + quoi + "&location=" + ou;
+        } else {
+            if (quoi.trim()) {
+                document.location.href = chemin + "?keyword=" + quoi;
+            } else {
+                if (ou.trim()) {
+                    document.location.href = chemin + "?location=" + ou;
+                } else {
+                    document.location.href = chemin;
+                }
+            }
+        }
+    });
+</script>

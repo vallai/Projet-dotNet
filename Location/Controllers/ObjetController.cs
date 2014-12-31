@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Location.Controllers
 {
+    [Authorize]
     public class ObjetController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -25,7 +26,10 @@ namespace Location.Controllers
         // GET: Objet
         public ActionResult Index()
         {
-            return View(db.Objets.Include(o => o.Categorie).ToList());
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+
+            var objets = db.Objets.Include(o => o.Categorie).Where(o => o.proprietaire.Id == currentUser.Id);
+            return View(objets);
         }
 
         // GET: Objet/Details/5

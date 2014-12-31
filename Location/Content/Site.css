@@ -15,13 +15,31 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
+/** Page d'accueil **/
+
 .jumbotron {
-    margin-top: 20px;
+    margin-top: 30px;
     background-color: #ddd;
+    background: url('img/home.png') no-repeat center;
 }
+
+    .jumbotron h1 {
+        color: #fff;
+        font-size: 3em;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+
+h3 span {
+    margin-right: 8px;
+}
+
+/** Barre d'info **/
 
 .navbar-brand {
     padding: 0px;
@@ -50,17 +68,23 @@ textarea {
     border-bottom: 3px solid #333333;
 }
 
+.navbar-collapse {
+    margin-bottom: 15px;
+}
+
 footer p {
     text-align: center;
 }
+
+/** Autocompletion **/
 
 .twitter-typeahead {
     width: 100%;
 }
 
 .tt-dropdown-menu {
-    /*width: 100% !important;*/
-    width: 280px;
+    width: 100%;
+    /*width: 280px;*/
     /*margin-top: 12px;*/
     padding: 8px 0;
     background-color: #fff;
@@ -77,16 +101,94 @@ footer p {
     line-height: 24px;
 }
 
-.tt-suggestion.tt-cursor {
-    cursor: pointer;
-    background-color: #ddd;
-}
+    .tt-suggestion.tt-cursor {
+        cursor: pointer;
+        background-color: #ddd;
+    }
 
-.tt-suggestion p {
-    margin: 0;
-}
+    .tt-suggestion p {
+        margin: 0;
+    }
 
 .tt-dropdown-menu {
-  max-height: 150px;
-  overflow-y: auto;
+    max-height: 150px;
+    overflow-y: auto;
 }
+
+/** Champs manquants **/
+
+@font-face {
+    font-family: 'Glyphicons';
+    src: url('fonts/glyphicons-halflings-regular.eot');
+    src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#webfont') format('svg');
+}
+
+.text-danger {
+    color: #ff0000;
+}
+
+    .text-danger li {
+        list-style-type: none;
+    }
+
+        .text-danger li:before {
+            font-family: Glyphicons;
+            font-weight: normal;
+            font-style: normal;
+            display: inline-block;
+            text-decoration: inherit;
+            content: "\e107";
+            margin-right: 10px;
+        }
+
+/** Menu **/
+
+
+#menu {
+    border-bottom: 3px solid black;
+    background: #4198d2;
+    background: -moz-linear-gradient(top, #4198d2 2%, #4198d2 50%, #006bb2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#4198d2), color-stop(50%,#4198d2), color-stop(100%,#006bb2));
+    background: -webkit-linear-gradient(top, #4198d2 2%,#4198d2 50%,#006bb2 100%);
+    background: -o-linear-gradient(top, #4198d2 2%,#4198d2 50%,#006bb2 100%);
+    background: -ms-linear-gradient(top, #4198d2 2%,#4198d2 50%,#006bb2 100%);
+    background: linear-gradient(to bottom, #4198d2 2%,#4198d2 50%,#006bb2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4198d2', endColorstr='#006bb2',GradientType=0 );
+    text-align: center;
+}
+
+
+
+    #menu,
+    #menu ul,
+    #menu ul li,
+    #menu ul li a {
+        list-style: none;
+        line-height: 0.5;
+        display: block;
+        position: relative;
+    }
+
+        #menu ul {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+
+            #menu ul li {
+                display: inline-block;
+                border-right: 3px solid black;
+                margin: 0;
+            }
+
+                #menu ul li:last-child {
+                    border-right: none;
+                }
+
+                #menu ul li a {
+                    font-size: 14px;
+                    padding: 15px;
+                    text-decoration: none;
+                    color: #fff;
+                }
