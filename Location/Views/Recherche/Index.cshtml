@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Location.Models.Objet>
+
+@{
+    ViewBag.Title = "Recherche";
+}
+
+<h2>Recherche</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categorie)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tarif)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Caution)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Titre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Categorie.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tarif)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Caution)
+        </td>
+    </tr>
+}
+
+</table>

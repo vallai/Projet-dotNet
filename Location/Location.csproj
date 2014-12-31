@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ObjetController.cs" />
+    <Compile Include="Controllers\RechercheController.cs" />
     <Compile Include="Controllers\VilleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -233,10 +234,10 @@
     <Content Include="Views\Objet\Details.cshtml" />
     <Content Include="Views\Objet\Edit.cshtml" />
     <Content Include="Views\Objet\Index.cshtml" />
+    <Content Include="Views\Recherche\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Application\" />
-    <Folder Include="Views\Ville\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

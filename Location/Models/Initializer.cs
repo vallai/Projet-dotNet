@@ -9,10 +9,10 @@ using System.Web;
 
 namespace Location.Models
 {
-    //public class MInitializer : DropCreateDatabaseIfModelChanges<MagasinContext>
+    //public class Initializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     // CreateDatabaseIfNotExists
     // DropCreateDatabaseAlways
-    public class Initializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    public class Initializer : CreateDatabaseIfNotExists<ApplicationDbContext>
     {
 
         protected override void Seed(ApplicationDbContext context)
@@ -51,6 +51,9 @@ namespace Location.Models
 
             var rhoneAlpes = new Region { Nom = "Rhone-Alpes" };
             context.Regions.Add(rhoneAlpes);
+
+            var lorraine = new Region { Nom = "Lorraine" };
+            context.Regions.Add(lorraine);
 
             // DEPARTEMENTS
 
