@@ -14,7 +14,6 @@ namespace Location.Models
         [Required]
         public string Titre { get; set; }
         public string Description { get; set; }
-        [Required]
         [Display(Name = "Catégorie")]
         public virtual Categorie Categorie { get; set; }
         [Required]

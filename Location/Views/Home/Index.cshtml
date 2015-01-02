@@ -10,13 +10,13 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
-                    <input id="quoi" type="text" class="form-control" id="quoi" placeholder="Quoi ? Exemple : Perceuse, Poussette, Camping-car ...">
+                    <input id="quoi" type="text" class="form-control" placeholder="Quoi ? Exemple : Perceuse, Poussette, Camping-car ...">
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></div>
-                    <input id="ou" type="text" class="form-control" id="quoi" placeholder="Où ? Exemple : Grenoble, Isère, Rhones-Alpes ...">
+                    <input id="ou" type="text" class="form-control" placeholder="Où ? Exemple : Grenoble, Isère, Rhones-Alpes ...">
                 </div>
             </div>
             <div class="form-group">
@@ -25,7 +25,6 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-
 </div>
 
 <div class="row">
@@ -48,23 +47,50 @@
     </div>
 </div>
 
+@Scripts.Render("~/bundles/autocomplete")
 <script>
+    // Autocomplétion
+
+    var lieux = new Bloodhound({
+        datumTokenizer: function (datum) {
+            return Bloodhound.tokenizers.whitespace(datum.value);
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '@Url.Action("Lieux", "Ville")?recherche=%QUERY',
+            filter: function (lieux) {
+                return $.map(lieux, function (lieu) {
+                    return {
+                        value: lieu
+                    };
+                });
+            }
+        }
+    });
+    lieux.initialize();
+    $('#ou').typeahead(null, {
+        hint: true,
+        minLength: 1,
+        displayKey: 'value',
+        source: lieux.ttAdapter()
+    });
+    $('.tt-hint').removeAttr("data-val");
+
+    // Bouton recherche
     $("#rechercher").on('click', function () {
         var chemin = "@Url.Action("Index","Recherche")";
         var quoi = $("#quoi").val();
         var ou = $("#ou").val();
         if (quoi.trim() && ou.trim()) {
-            document.location.href = chemin + "?keyword=" + quoi + "&location=" + ou;
+            chemin += "?keyword=" + quoi + "&location=" + ou;
         } else {
             if (quoi.trim()) {
-                document.location.href = chemin + "?keyword=" + quoi;
-            } else {
-                if (ou.trim()) {
-                    document.location.href = chemin + "?location=" + ou;
-                } else {
-                    document.location.href = chemin;
-                }
+                chemin += "?keyword=" + quoi;
+            }
+            if (ou.trim()) {
+                chemin += "?location=" + ou;
             }
         }
+        document.location.href = chemin;
     });
 </script>

@@ -59,14 +59,17 @@ namespace Location.Controllers
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution")] Objet objet)
+        public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution,")] Objet objet)
         {
+            var test = ViewBag.ListeDesCategories;
             if (ModelState.IsValid)
             {
+                
+                //var categorieC = db.Categories.Find()
                 var currentUser = manager.FindById(User.Identity.GetUserId());
                 objet.proprietaire = currentUser;
+                objet.Categorie = db.Categories.Find(4);
                 db.Objets.Add(objet);
                 db.SaveChanges();
                 return RedirectToAction("Index");

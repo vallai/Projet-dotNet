@@ -4,61 +4,34 @@
     ViewBag.Title = "Supprimer un objet";
 }
 
-<h2>Supprimer</h2>
+<h2>Supprimer un objet</h2>
 
 <h3>Êtes-vous sûr de vouloir supprimer cet objet ?</h3>
 <div>
-    <h4>Objet</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titre)
-        </dt>
+    <div class="row objet">
+        <div class="photo col-xs-2">
+            <img src="http://placehold.it/160x120" />
+        </div>
+        <div class="col-xs-7">
+            <h3>@Model.Titre</h3>
+            <p>
+                @Model.Description
+            </p>
+        </div>
+        <div class="infos col-xs-3">
+            <span class="tarif">@Model.Tarif€</span><span class="jour">/jour</span><br />
+            Caution : @Model.Caution €<br />
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Titre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Categorie.Nom)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tarif)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tarif)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Caution)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Caution)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" /> |
-            @Html.ActionLink("Retour à la liste", "Index")
+
+            <a href="@Url.Action("Index", "Objet")"><span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span> Retour à la liste de mes objets</a>
+            <input type="submit" value="Supprimer" class="btn btn-default" />
         </div>
     }
 </div>

@@ -70,7 +70,7 @@
         },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-            url: '@Url.Action("Index", "Ville")?recherche=%QUERY',
+            url: '@Url.Action("Villes", "Ville")?recherche=%QUERY',
             filter: function (villes) {
                 return $.map(villes, function (ville) {
                     return {

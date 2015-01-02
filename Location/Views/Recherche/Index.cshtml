@@ -1,48 +1,133 @@
-﻿@model IEnumerable<Location.Models.Objet>
+﻿@model Location.ViewModels.RechercheViewModel
 
 @{
     ViewBag.Title = "Recherche";
 }
 
-<h2>Recherche</h2>
+<div id="recherche">
+    <div class="col-md-12">
+        <form class="form-inline">
+            <div class="form-group">
+                @if (@Model.keyword != null)
+                {
+                    <input type="text" class="form-control" id="quoi" value="@Model.keyword">
+                }
+                else
+                {
+                    <input type="text" class="form-control" id="quoi" placeholder="Quoi?">
+                }
+            </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Titre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Categorie)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tarif)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Caution)
-        </th>
-    </tr>
+            <div class="form-group">
+                <select id="categorie" class="form-control">
+                    <option>Toutes les catégories</option>
+                    @foreach (var cat in @Model.categories)
+                    {
+                        if (@Model.categorie != null && @cat.Nom.ToLower().Replace(" ", "").Replace("é", "e") == @Model.categorie.Nom.ToLower().Replace(" ", "").Replace("é", "e"))
+                        {
+                            <option selected>@cat.Nom</option>
+                        }
+                        else
+                        {
+                            <option>@cat.Nom</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                @if (@Model.location != null)
+                {
+                    <input type="text" class="form-control" id="ou" value="@Model.location">
+                }
+                else
+                {
+                    <input type="text" class="form-control" id="ou" placeholder="Où ?">
+                }
+            </div>
+            <div class="form-group">
+                <button id="rechercher" type="submit" class="btn btn-default">Rechercher</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Titre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Categorie.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tarif)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Caution)
-        </td>
-    </tr>
+@foreach (var item in @Model.objets)
+{
+    <div class="row objet">
+        <div class="photo col-xs-2">
+            <img src="http://placehold.it/160x120" />
+        </div>
+        <div class="col-xs-8">
+            <h3>@item.Titre</h3>
+            <p>
+                @item.Description
+            </p>    
+        </div>
+        <div class="infos col-xs-2">
+           <span class="tarif">@item.Tarif€</span><span class="jour">/jour</span><br />
+            Caution : @item.Caution €<br />
+            Proposé par : @item.proprietaire.prenom @item.proprietaire.nom.Substring(0, 1).<br />
+            @item.proprietaire.Ville.Code_postal - @item.proprietaire.Ville.Nom
+        </div>
+    </div>
 }
 
-</table>
+@Scripts.Render("~/bundles/autocomplete")
+<script>
+    // Autocomplétion
+
+    var lieux = new Bloodhound({
+        datumTokenizer: function (datum) {
+            return Bloodhound.tokenizers.whitespace(datum.value);
+        },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '@Url.Action("Lieux", "Ville")?recherche=%QUERY',
+            filter: function (lieux) {
+                return $.map(lieux, function (lieu) {
+                    return {
+                        value: lieu
+                    };
+                });
+            }
+        }
+    });
+    lieux.initialize();
+    $('#ou').typeahead(null, {
+        hint: true,
+        minLength: 1,
+        displayKey: 'value',
+        source: lieux.ttAdapter()
+    });
+    $('.tt-hint').removeAttr("data-val");
+
+    // Bouton recherche
+    $("#rechercher").on('click', function () {
+        var chemin = "@Url.Action("Index","Recherche")";
+        var quoi = $("#quoi").val();
+        var ou = $("#ou").val();
+        var cat = $("#categorie").val().replace(/ /g, "").replace(/é/g, "e").replace(/É/g, "E");
+        var parametres = [];
+        if (quoi.trim()) {
+            parametres.push("keyword=" + quoi);
+        }
+        if (ou.trim()) {
+            parametres.push("location=" + ou);
+        }
+        if (cat.trim() != "Touteslescategories") {
+            parametres.push("categorie=" + cat);
+        }
+        if (parametres.length > 0) {
+            chemin += "?";
+            for (var i = 0 ; i < parametres.length ; i++) {
+                chemin += parametres[i];
+                if (i+1 < parametres.length) {
+                    chemin += "&";
+                }
+            }
+        }
+        alert(chemin);
+        document.location.href = chemin;
+        return false;
+    });
+</script>

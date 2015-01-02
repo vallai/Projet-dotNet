@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Location.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Location.ViewModels;
 
 namespace Location.Controllers
 {
@@ -20,6 +21,7 @@ namespace Location.Controllers
         // GET: Recherche
         public ActionResult Index(String keyword, String categorie, String location)
         {
+           
             List<Objet> objetsRecherches = db.Objets.Include(o => o.Categorie).ToList();
 
             if (keyword != null)
@@ -63,11 +65,21 @@ namespace Location.Controllers
                 {
                     objetsRecherches = objetsRecherches.Where(o => o.proprietaire.Ville.Departement.Region.Nom.IndexOf(rechercheRegion.Nom, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
                 }
-                
+
             }
-            return View(objetsRecherches);
+
+            RechercheViewModel rvm = new RechercheViewModel
+            {
+                objets = objetsRecherches,
+                categories = db.Categories.ToList(),
+                categorie = db.Categories.SingleOrDefault(c => c.Nom.ToLower().Trim().Replace("é", "e").Replace(" ","") == categorie.ToLower().Trim().Replace("é", "e").Replace(" ","")),
+                keyword = keyword,
+                location = location
+            };
+
+            return View(rvm);
         }
 
-     
+
     }
 }
