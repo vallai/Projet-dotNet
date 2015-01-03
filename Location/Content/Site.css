@@ -264,3 +264,19 @@ footer p {
     text-align: center;
     font-size: 1.2em;
 }
+
+/** Calendrier **/
+
+#dateDebut, #dateFin {
+    margin-bottom : 250px;
+    width : 250px;
+}
+
+
+#info-resa, #tarif-resa {
+    margin-top : 50px;
+}
+
+#nb-jours, #montant {
+    font-weight : 900;
+}

@@ -1,58 +1,147 @@
-﻿@model Location.Models.Objet
+﻿@model Location.ViewModels.ReservationObjetViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Réserver un objet";
 }
+@Scripts.Render("~/bundles/glDatePicker")
+<h2>Réserver un objet</h2>
 
-<h2>Details</h2>
-
-<div>
-    <h4>Objet</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Titre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Categorie.Nom)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tarif)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tarif)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Caution)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Caution)
-        </dd>
-
-    </dl>
+<div class="row objet">
+    <div class="photo col-xs-2">
+        <img src="http://placehold.it/160x120" />
+    </div>
+    <div class="col-xs-10">
+        <h3>@Model.objet.Titre</h3>
+        <p>
+            @Model.objet.Description<br /><br />
+            Proposé par : @Model.objet.proprietaire.prenom @Model.objet.proprietaire.nom.Substring(0, 1).<br />
+            @Model.objet.proprietaire.Ville.Code_postal - @Model.objet.proprietaire.Ville.Nom
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Editer", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Retour à la liste", "Index")
-</p>
+<div class="row objet">
+    <div class="infos col-xs-4">
+        <p id="tarif-resa">
+            <span class="tarif">@Model.objet.Tarif€</span><span class="jour">/jour</span><br />
+            Caution : @Model.objet.Caution €
+        </p>
+        <p id="info-resa">Vous avez selectionné <span id="nb-jours">0 jour</span> soit <span id="montant">0 €</span></p>
+        <input id="reserver" type="submit" value="Réserver" class="btn btn-default" disabled/>
+    </div>
+    <div class="infos col-xs-4">
+        <h4>Début de la réservation</h4>
+        <input type="text" id="dateDebut" />
+    </div>
+    <div class="infos col-xs-4">
+        <h4>Fin de la réservation</h4>
+        <input type="text" id="dateFin" />
+    </div>
+</div>
+
+
+<script>
+    function parseDate(str) {
+        var m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        return (m) ? new Date(m[3], m[2] - 1, m[1]) : null;
+    }
+
+    $(window).load(function () {
+        var today = new Date();
+        var dateFin = $('#dateFin').glDatePicker(
+        {
+            showAlways: true,
+            cssName: 'flatwhite',
+            monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            dowNames: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+            dowOffset: 1,
+            selectableDateRange: [{
+                from: today,
+                @foreach (var resa in @Model.reservations) {
+                    @("to: new Date(") @resa.dateDebut.AddDays(-1).Year @(",") @(resa.dateDebut.AddDays(-1).Month-1) @(",") @resa.dateDebut.AddDays(-1).Day @(")},{")
+                    @("from: new Date(") @resa.dateFin.AddDays(1).Year @(",") @(resa.dateFin.AddDays(1).Month - 1) @(",") @resa.dateFin.AddDays(1).Day @("),")
+                }
+                to: new Date(2021, 1, 1)
+
+            }],
+            onClick: (function (el, cell, date, data) {
+                el.val(date.toLocaleDateString());
+                majMontant();
+            })
+        }).glDatePicker(true);
+
+        $('#dateDebut').glDatePicker(
+        {
+            showAlways: true,
+            cssName: 'flatwhite',
+            monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            dowNames: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+            dowOffset: 1,
+            selectableDateRange: [{
+                from: today,
+                @foreach (var resa in @Model.reservations) {
+                    @("to: new Date(") @resa.dateDebut.AddDays(-1).Year @(",") @(resa.dateDebut.AddDays(-1).Month-1) @(",") @resa.dateDebut.AddDays(-1).Day @(")},{")
+                    @("from: new Date(") @resa.dateFin.AddDays(1).Year @(",") @(resa.dateFin.AddDays(1).Month - 1) @(",") @resa.dateFin.AddDays(1).Day @("),")
+                }
+                to: new Date(2021, 1, 1)
+            }],
+            onClick: (function (el, cell, date, data) {
+                el.val(date.toLocaleDateString());
+                dateFin.options.selectableDateRange = [{
+                    from: date,
+                    @foreach (var resa in @Model.reservations) {
+                        @("to: new Date(") @resa.dateDebut.AddDays(-1).Year @(",") @(resa.dateDebut.AddDays(-1).Month-1) @(",") @resa.dateDebut.AddDays(-1).Day @(")},{")
+                        @("from: new Date(") @resa.dateFin.AddDays(1).Year @(",") @(resa.dateFin.AddDays(1).Month - 1) @(",") @resa.dateFin.AddDays(1).Day @("),")
+                    }
+                    to: new Date(2021, 1, 1)
+                }],
+                dateFin.render();
+                majMontant();
+            })
+        });
+
+        var majMontant = function () {
+            var unJour = 24 * 60 * 60 * 1000;
+            var nbJours = 0;
+            var dateDebutUser = parseDate($("#dateDebut").val());
+            var dateFinUser = parseDate($("#dateFin").val());
+            if (dateDebutUser != null && dateFinUser != null) {
+                nbJours = 0 - Math.round((dateDebutUser.getTime() - dateFinUser.getTime()) / (unJour)) + 1;
+                if (nbJours < 0) {
+                    nbJours = 0;
+                }
+            }
+            if (nbJours <= 1) {
+                $("#nb-jours").text(nbJours + " jour");
+            } else {
+                $("#nb-jours").text(nbJours + " jours");
+            }
+            $("#montant").text(parseInt(@Model.objet.Tarif) * nbJours + " €");
+            if (nbJours > 0) {
+                $("#reserver").removeAttr("disabled");
+            } else {
+                $("#reserver").attr("disabled", "disabled");
+            }
+        };
+
+
+    });
+
+
+    $("#reserver").click(function () {
+        $.post("@Url.Action("Create", "Reservation")",
+        {
+            objet: "@Model.objet.Id",
+            debutJour: parseDate($("#dateDebut").val()).getDate(),
+            debutMois: parseDate($("#dateDebut").val()).getMonth() + 1,
+            debutAnnee: parseDate($("#dateDebut").val()).getFullYear(),
+            finJour: parseDate($("#dateFin").val()).getDate(),
+            finMois: parseDate($("#dateFin").val()).getMonth() + 1,
+            finAnnee: parseDate($("#dateFin").val()).getFullYear()
+        },
+        function (data, status) {
+            if (status == "success") {
+                document.location.href = "@Url.Action("Index","Reservation")";
+            }
+        });
+    });
+</script>

@@ -30,7 +30,7 @@ namespace Location.Controllers
             }
             if (categorie != null)
             {
-                objetsRecherches = objetsRecherches.Where(o => o.Categorie.Nom.IndexOf(categorie, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                objetsRecherches = objetsRecherches.Where(o => o.Categorie.Nom.ToLower().Trim().Replace("é", "e").Replace(" ","").IndexOf(categorie, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList();
             }
             if (location != null)
             {

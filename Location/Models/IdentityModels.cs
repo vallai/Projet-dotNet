@@ -45,5 +45,6 @@ namespace Location.Models
         public DbSet<Region> Regions { get; set; }
         public DbSet<Departement> Departements { get; set; }
         public DbSet<Ville> Villes { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

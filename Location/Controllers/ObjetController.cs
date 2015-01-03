@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Location.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Location.ViewModels;
 
 namespace Location.Controllers
 {
@@ -39,13 +40,18 @@ namespace Location.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Objet objet = db.Objets.Find(id);
-            if (objet == null)
+            Objet objetUser = db.Objets.Find(id);
+            if (objetUser == null)
             {
                 return HttpNotFound();
             }
+            ReservationObjetViewModel rovm = new ReservationObjetViewModel
+            {
+                objet = objetUser,
+                reservations = db.Reservations.Where(r => r.objet.Id == objetUser.Id).OrderBy(r => r.dateDebut).ToList()
+            };
             //ViewBag.cat = objet.Categorie;
-            return View(objet);
+            return View(rovm);
         }
 
         // GET: Objet/Create
@@ -60,16 +66,14 @@ namespace Location.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution,")] Objet objet)
+        public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution")] Objet objet)
         {
             var test = ViewBag.ListeDesCategories;
             if (ModelState.IsValid)
             {
-                
-                //var categorieC = db.Categories.Find()
                 var currentUser = manager.FindById(User.Identity.GetUserId());
                 objet.proprietaire = currentUser;
-                objet.Categorie = db.Categories.Find(4);
+                objet.Categorie = db.Categories.Find(int.Parse(Request["CategorieChoisie"]));
                 db.Objets.Add(objet);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -100,9 +104,15 @@ namespace Location.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Titre,Description,Tarif,Caution")] Objet objet)
         {
+            
             if (ModelState.IsValid)
             {
-                db.Entry(objet).State = EntityState.Modified;
+                db.Objets.Remove(db.Objets.Find(objet.Id));
+
+                var currentUser = manager.FindById(User.Identity.GetUserId());
+                objet.proprietaire = currentUser;
+                objet.Categorie = db.Categories.Find(int.Parse(Request["CategorieChoisie"]));
+                db.Objets.Add(objet);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

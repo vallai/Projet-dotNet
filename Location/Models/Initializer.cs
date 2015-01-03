@@ -21,13 +21,11 @@ namespace Location.Models
 
             var categorieBricolage = new Categorie { Nom = "Bricolage" };
             var categorieLoisirs = new Categorie { Nom = "Loisirs" };
+            var categorieEvenements = new Categorie { Nom = "Événements" };
             var categories = new List<Categorie>
             {
                 new Categorie{
                     Nom = "Véhicules"
-                },
-                new Categorie{
-                    Nom = "Événements"
                 },
                 new Categorie{
                     Nom = "High Tech"
@@ -44,6 +42,7 @@ namespace Location.Models
             {
                 context.Categories.Add(categorie);
             }
+            context.Categories.Add(categorieEvenements);
             context.Categories.Add(categorieBricolage);
             context.Categories.Add(categorieLoisirs);
            
@@ -131,6 +130,14 @@ namespace Location.Models
                     Categorie = categorieLoisirs,
                     Tarif = 15,
                     Caution = 200,
+                    proprietaire = userChristian
+                },
+                new Objet{
+                    Titre = "ObjetEvenement", 
+                    Description = "Super description Super description Super description", 
+                    Categorie = categorieEvenements,
+                    Tarif = 10,
+                    Caution = 100,
                     proprietaire = userChristian
                 }
             };

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Location.Models.Reservation>
+
+@{
+    ViewBag.Title = "Mes réservations";
+}
+
+<h2>Mes réservations</h2>
+
+@foreach (var item in Model)
+{
+    <div class="row objet">
+        <div class="photo col-xs-2">
+            <img src="http://placehold.it/160x120" />
+        </div>
+        <div class="col-xs-5">
+            <h3>@item.objet.Titre</h3>
+            <p>
+                @item.objet.Description
+            </p>
+        </div>
+        <div class="infos col-xs-2">
+            <span class="tarif">@item.objet.Tarif€</span><span class="jour">/jour</span><br />
+            Caution : @item.objet.Caution €<br />
+        </div>
+        <div class="infos col-xs-2">
+            Début de la réservation : @item.dateDebut.ToShortDateString()<br />
+            Fin de la réservation : @item.dateFin.ToShortDateString()<br /><br />
+            
+            @(@Convert.ToInt32((item.dateFin-item.dateDebut).TotalDays) + 1) Jours de reservation<br />
+            Montant total : @(@Convert.ToInt32((item.dateFin - item.dateDebut).TotalDays +1) * item.objet.Tarif) €
+        </div>
+        <div class="outils col-xs-1">
+            <a href="@Url.Action("Delete", "Reservation", new { id = item.Id })"><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Annuler ma réservation</a>
+        </div>
+    </div>
+}

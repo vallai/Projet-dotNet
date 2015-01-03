@@ -25,10 +25,14 @@ namespace Location
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/glDatePicker.flatwhite.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/autocomplete").Include(
                       "~/Scripts/typeahead.bundle.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/glDatePicker").Include(
+                      "~/Scripts/glDatePicker.js"));
 
 
             // Définissez EnableOptimizations sur False pour le débogage. Pour plus d'informations,

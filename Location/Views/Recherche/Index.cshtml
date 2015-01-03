@@ -53,23 +53,25 @@
 
 @foreach (var item in @Model.objets)
 {
-    <div class="row objet">
-        <div class="photo col-xs-2">
-            <img src="http://placehold.it/160x120" />
+    <a href="@Url.Action("Details", "Objet", new { id=item.Id } )">
+        <div class="row objet">
+            <div class="photo col-xs-2">
+                <img src="http://placehold.it/160x120" />
+            </div>
+            <div class="col-xs-8">
+                <h3>@item.Titre</h3>
+                <p>
+                    @item.Description
+                </p>
+            </div>
+            <div class="infos col-xs-2">
+                <span class="tarif">@item.Tarif€</span><span class="jour">/jour</span><br />
+                Caution : @item.Caution €<br />
+                Proposé par : @item.proprietaire.prenom @item.proprietaire.nom.Substring(0, 1).<br />
+                @item.proprietaire.Ville.Code_postal - @item.proprietaire.Ville.Nom
+            </div>
         </div>
-        <div class="col-xs-8">
-            <h3>@item.Titre</h3>
-            <p>
-                @item.Description
-            </p>    
-        </div>
-        <div class="infos col-xs-2">
-           <span class="tarif">@item.Tarif€</span><span class="jour">/jour</span><br />
-            Caution : @item.Caution €<br />
-            Proposé par : @item.proprietaire.prenom @item.proprietaire.nom.Substring(0, 1).<br />
-            @item.proprietaire.Ville.Code_postal - @item.proprietaire.Ville.Nom
-        </div>
-    </div>
+    </a>
 }
 
 @Scripts.Render("~/bundles/autocomplete")
@@ -121,12 +123,11 @@
             chemin += "?";
             for (var i = 0 ; i < parametres.length ; i++) {
                 chemin += parametres[i];
-                if (i+1 < parametres.length) {
+                if (i + 1 < parametres.length) {
                     chemin += "&";
                 }
             }
         }
-        alert(chemin);
         document.location.href = chemin;
         return false;
     });

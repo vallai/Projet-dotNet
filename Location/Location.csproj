@@ -162,6 +162,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ObjetController.cs" />
     <Compile Include="Controllers\RechercheController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\VilleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -173,10 +174,12 @@
     <Compile Include="Models\Objet.cs" />
     <Compile Include="Models\Departement.cs" />
     <Compile Include="Models\Region.cs" />
+    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Ville.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\RechercheViewModel.cs" />
+    <Compile Include="ViewModels\ReservationObjetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\maBaseDeDonnees.mdf" />
@@ -185,6 +188,7 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\glDatePicker.flatwhite.css" />
     <Content Include="Content\img\home.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="favicon.ico" />
@@ -197,6 +201,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\glDatePicker.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -240,6 +245,8 @@
     <Content Include="Views\Objet\Edit.cshtml" />
     <Content Include="Views\Objet\Index.cshtml" />
     <Content Include="Views\Recherche\Index.cshtml" />
+    <Content Include="Views\Reservation\Delete.cshtml" />
+    <Content Include="Views\Reservation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Application\" />
