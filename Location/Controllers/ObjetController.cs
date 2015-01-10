@@ -30,7 +30,20 @@ namespace Location.Controllers
             var currentUser = manager.FindById(User.Identity.GetUserId());
 
             var objets = db.Objets.Include(o => o.Categorie).Where(o => o.proprietaire.Id == currentUser.Id);
-            return View(objets);
+            var rovms = new List<ReservationObjetViewModel>();
+            foreach (var objet in objets)
+            {
+                db = new ApplicationDbContext();
+                var resas = db.Reservations.Where(r => r.objet.Id == objet.Id).OrderBy(r => r.dateDebut).ToList();
+                ReservationObjetViewModel rovm = new ReservationObjetViewModel
+                {
+                    objet = objet,
+                    reservations = resas
+                };
+                rovms.Add(rovm);
+               
+            }
+            return View(rovms);
         }
 
         // GET: Objet/Details/5
@@ -93,6 +106,12 @@ namespace Location.Controllers
             {
                 return HttpNotFound();
             }
+
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+            if (objet.proprietaire != currentUser)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             ViewBag.ListeDesCategories = new SelectList(db.Categories, "Id", "Nom", objet.Categorie.Id );
             return View(objet);
         }
@@ -130,6 +149,11 @@ namespace Location.Controllers
             if (objet == null)
             {
                 return HttpNotFound();
+            }
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+            if (objet.proprietaire != currentUser)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
             return View(objet);
         }

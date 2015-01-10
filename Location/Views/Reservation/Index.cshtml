@@ -10,7 +10,7 @@
 {
     <div class="row objet">
         <div class="photo col-xs-2">
-            <img src="http://placehold.it/160x120" />
+            <img src="~/Content/img/placeholder.png" />
         </div>
         <div class="col-xs-5">
             <h3>@item.objet.Titre</h3>
@@ -32,11 +32,11 @@
         <div class="outils col-xs-1">
             <a href="@Url.Action("Delete", "Reservation", new { id = item.Id })"><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Annuler ma réservation</a>
         </div>
-
-        <div class="row coordonnees">
+    </div>
+        <div class="row resa coordonnees">
             <div class="col-lg-12">
                 Contacter @item.objet.proprietaire.prenom @item.objet.proprietaire.nom : <a href="mailto:@item.objet.proprietaire.Email">@item.objet.proprietaire.Email</a>
             </div>
         </div>
-    </div>
+    
 }

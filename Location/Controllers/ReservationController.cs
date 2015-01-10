@@ -67,6 +67,11 @@ namespace Location.Controllers
             {
                 return HttpNotFound();
             }
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+            if (reservation.utilisateur != currentUser)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             return View(reservation);
         }
 
