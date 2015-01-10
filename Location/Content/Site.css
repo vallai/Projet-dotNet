@@ -81,7 +81,7 @@ h3 span {
 }
 
 .navbar-collapse {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 footer p {
@@ -123,8 +123,8 @@ footer p {
     }
 
 .tt-dropdown-menu {
-    max-height: 150px;
-    overflow-y: auto;
+    /*max-height: 150px;
+    overflow-y: auto;*/
 }
 
 /** Champs manquants **/
@@ -263,6 +263,11 @@ footer p {
 #nouvel-objet {
     text-align: center;
     font-size: 1.2em;
+}
+
+.coordonnees {
+    text-align : center;
+    font-weight : 600;
 }
 
 /** Calendrier **/

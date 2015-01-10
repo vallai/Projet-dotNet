@@ -18,7 +18,7 @@ namespace Location.Models
         protected override void Seed(ApplicationDbContext context)
         {
             // CATEGORIES
-
+/*
             var categorieBricolage = new Categorie { Nom = "Bricolage" };
             var categorieLoisirs = new Categorie { Nom = "Loisirs" };
             var categorieEvenements = new Categorie { Nom = "Événements" };
@@ -86,14 +86,14 @@ namespace Location.Models
             var grenoble = new Ville
             {
                 Nom = "Grenoble",
-                Code_postal = 38000,
+                Code_postal = "38000",
                 Departement = isere
             };
 
             var lyon = new Ville
             {
                 Nom = "Lyon",
-                Code_postal = 69000,
+                Code_postal = "69000",
                 Departement = rhone
             };
 
@@ -148,6 +148,7 @@ namespace Location.Models
             }
 
             context.SaveChanges();
+ */
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Location.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Titre,Description,Tarif,Caution")] Objet objet)
         {
-            var test = ViewBag.ListeDesCategories;
+            var cat = ViewBag.ListeDesCategories;
             if (ModelState.IsValid)
             {
                 var currentUser = manager.FindById(User.Identity.GetUserId());
@@ -139,7 +139,13 @@ namespace Location.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
             Objet objet = db.Objets.Find(id);
+            List<Reservation> resas = db.Reservations.Where(r => r.objet.Id == objet.Id).ToList();
+            foreach (Reservation resa in resas)
+            {
+                db.Reservations.Remove(resa);
+            }
             db.Objets.Remove(objet);
             db.SaveChanges();
             return RedirectToAction("Index");

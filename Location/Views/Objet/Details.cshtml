@@ -7,9 +7,7 @@
 <h2>Réserver un objet</h2>
 
 <div class="row objet">
-    <div class="photo col-xs-2">
-        <img src="http://placehold.it/160x120" />
-    </div>
+    <img class="photo col-sm-2" src="http://placehold.it/160x130" />
     <div class="col-xs-10">
         <h3>@Model.objet.Titre</h3>
         <p>
@@ -26,7 +24,7 @@
             Caution : @Model.objet.Caution €
         </p>
         <p id="info-resa">Vous avez selectionné <span id="nb-jours">0 jour</span> soit <span id="montant">0 €</span></p>
-        <input id="reserver" type="submit" value="Réserver" class="btn btn-default" disabled/>
+        <input id="reserver" type="submit" value="Réserver" class="btn btn-default" disabled />
     </div>
     <div class="infos col-xs-4">
         <h4>Début de la réservation</h4>
@@ -115,7 +113,8 @@
             } else {
                 $("#nb-jours").text(nbJours + " jours");
             }
-            $("#montant").text(parseInt(@Model.objet.Tarif) * nbJours + " €");
+            var tarif = parseFloat("@Model.objet.Tarif".replace(',', '.'));
+            $("#montant").text(tarif * nbJours + " €");
             if (nbJours > 0) {
                 $("#reserver").removeAttr("disabled");
             } else {

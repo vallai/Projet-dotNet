@@ -42,14 +42,10 @@ namespace Location.Controllers
                 }
 
                 // Recherche par code postal
-                int codePostal;
-                if (int.TryParse(location, out codePostal))
+                Ville rechercheCodePostal = db.Villes.SingleOrDefault(ville => ville.Code_postal == location);
+                if (rechercheCodePostal != null)
                 {
-                    Ville rechercheCodePostal = db.Villes.SingleOrDefault(ville => ville.Code_postal == codePostal);
-                    if (rechercheCodePostal != null)
-                    {
-                        objetsRecherches = objetsRecherches.Where(o => o.proprietaire.Ville.Nom.IndexOf(rechercheCodePostal.Nom, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
-                    }
+                    objetsRecherches = objetsRecherches.Where(o => o.proprietaire.Ville.Nom.IndexOf(rechercheCodePostal.Nom, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
                 }
 
                 // Recherche par departement

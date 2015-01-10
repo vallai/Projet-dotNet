@@ -25,12 +25,18 @@
         <div class="infos col-xs-2">
             Début de la réservation : @item.dateDebut.ToShortDateString()<br />
             Fin de la réservation : @item.dateFin.ToShortDateString()<br /><br />
-            
-            @(@Convert.ToInt32((item.dateFin-item.dateDebut).TotalDays) + 1) Jours de reservation<br />
-            Montant total : @(@Convert.ToInt32((item.dateFin - item.dateDebut).TotalDays +1) * item.objet.Tarif) €
+
+            @(@Convert.ToInt32((item.dateFin - item.dateDebut).TotalDays) + 1) Jours de reservation<br />
+            Montant total : @(@Convert.ToInt32((item.dateFin - item.dateDebut).TotalDays + 1) * item.objet.Tarif) €
         </div>
         <div class="outils col-xs-1">
             <a href="@Url.Action("Delete", "Reservation", new { id = item.Id })"><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Annuler ma réservation</a>
+        </div>
+
+        <div class="row coordonnees">
+            <div class="col-lg-12">
+                Contacter @item.objet.proprietaire.prenom @item.objet.proprietaire.nom : <a href="mailto:@item.objet.proprietaire.Email">@item.objet.proprietaire.Email</a>
+            </div>
         </div>
     </div>
 }

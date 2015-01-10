@@ -13,6 +13,7 @@ namespace Location.Models
         public int Id { get; set; }
         [Required]
         public string Titre { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [Display(Name = "Catégorie")]
         public virtual Categorie Categorie { get; set; }

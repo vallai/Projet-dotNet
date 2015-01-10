@@ -55,16 +55,14 @@
 {
     <a href="@Url.Action("Details", "Objet", new { id=item.Id } )">
         <div class="row objet">
-            <div class="photo col-xs-2">
-                <img src="http://placehold.it/160x120" />
-            </div>
-            <div class="col-xs-8">
+            <img class="photo col-sm-2" src="http://placehold.it/160x130" />
+            <div class="col-sm-8">
                 <h3>@item.Titre</h3>
                 <p>
                     @item.Description
                 </p>
             </div>
-            <div class="infos col-xs-2">
+            <div class="infos col-sm-2">
                 <span class="tarif">@item.Tarif€</span><span class="jour">/jour</span><br />
                 Caution : @item.Caution €<br />
                 Proposé par : @item.proprietaire.prenom @item.proprietaire.nom.Substring(0, 1).<br />

@@ -14,7 +14,7 @@ namespace Location.Models
         [Required]
         public string Nom { get; set; }
         [Required]
-        public int Code_postal { get; set; }
+        public string Code_postal { get; set; }
         [Required]
         public virtual Departement Departement { get; set; }
     }

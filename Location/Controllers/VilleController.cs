@@ -17,7 +17,7 @@ namespace Location.Controllers
             List<Ville> villesRecherchees = new List<Ville>();
             if (!string.IsNullOrWhiteSpace(recherche))
             {
-                villesRecherchees = db.Villes.ToList().Where(v => v.Nom.IndexOf(recherche, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                villesRecherchees = db.Villes.ToList().Where(v => v.Nom.StartsWith(recherche, StringComparison.CurrentCultureIgnoreCase)).OrderBy(v => v.Nom).ToList();
             }
 
             return new JsonResult { Data = (villesRecherchees), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -33,22 +33,22 @@ namespace Location.Controllers
 
             if (!string.IsNullOrWhiteSpace(recherche))
             {
-                villesRecherchees = db.Villes.ToList().Where(v => v.Nom.IndexOf(recherche, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
-                departementsRecherches = db.Departements.ToList().Where(d => d.Nom.IndexOf(recherche, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
-                regionsRecherchees = db.Regions.ToList().Where(r => r.Nom.IndexOf(recherche, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
+                villesRecherchees = db.Villes.ToList().Where(v => v.Nom.StartsWith(recherche, StringComparison.CurrentCultureIgnoreCase)).OrderBy(v => v.Nom).ToList();
+                departementsRecherches = db.Departements.ToList().Where(d => d.Nom.StartsWith(recherche, StringComparison.CurrentCultureIgnoreCase)).OrderBy(d => d.Nom).ToList();
+                regionsRecherchees = db.Regions.ToList().Where(r => r.Nom.StartsWith(recherche, StringComparison.CurrentCultureIgnoreCase)).OrderBy(r => r.Nom).ToList();
             }
-
-            foreach (var ville in villesRecherchees)
+            
+            foreach (var region in regionsRecherchees)
             {
-                lieuxRecherches.Add(ville.Nom);
+                lieuxRecherches.Add(region.Nom);
             }
             foreach (var departement in departementsRecherches)
             {
                 lieuxRecherches.Add(departement.Nom);
             }
-            foreach (var region in regionsRecherchees)
+            foreach (var ville in villesRecherchees)
             {
-                lieuxRecherches.Add(region.Nom);
+                lieuxRecherches.Add(ville.Nom);
             }
 
                 return new JsonResult { Data = (lieuxRecherches), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
